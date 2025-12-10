@@ -12,6 +12,8 @@ class DBRepository extends Notifier<CurrentRecipeData> implements Repository {
   Stream<List<Ingredient>>? ingredientStream;
   Stream<List<Recipe>>? recipeStream;
 
+  DBRepository({RecipeDatabase? recipeDatabase}) : recipeDatabase = recipeDatabase ?? RecipeDatabase();
+
   @override
   CurrentRecipeData build() {
     const currentRecipeData = CurrentRecipeData();
@@ -183,7 +185,6 @@ class DBRepository extends Notifier<CurrentRecipeData> implements Repository {
 
   @override
   Future init() async {
-    recipeDatabase = RecipeDatabase();
     _recipeDao = recipeDatabase.recipeDao;
     _ingredientDao = recipeDatabase.ingredientDao;
   }

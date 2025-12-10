@@ -37,22 +37,20 @@ class $DbRecipeTable extends DbRecipe
   static const VerificationMeta _bookmarkedMeta =
       const VerificationMeta('bookmarked');
   @override
-  late final GeneratedColumn<bool> bookmarked =
-      GeneratedColumn<bool>('bookmarked', aliasedName, false,
-          type: DriftSqlType.bool,
-          requiredDuringInsert: true,
-          defaultConstraints: GeneratedColumn.constraintsDependsOnDialect({
-            SqlDialect.sqlite: 'CHECK ("bookmarked" IN (0, 1))',
-            SqlDialect.mysql: '',
-            SqlDialect.postgres: '',
-          }));
+  late final GeneratedColumn<bool> bookmarked = GeneratedColumn<bool>(
+      'bookmarked', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: true,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("bookmarked" IN (0, 1))'));
   @override
   List<GeneratedColumn> get $columns =>
       [id, label, image, description, bookmarked];
   @override
-  String get aliasedName => _alias ?? 'db_recipe';
+  String get aliasedName => _alias ?? actualTableName;
   @override
-  String get actualTableName => 'db_recipe';
+  String get actualTableName => $name;
+  static const String $name = 'db_recipe';
   @override
   VerificationContext validateIntegrity(Insertable<DbRecipeData> instance,
       {bool isInserting = false}) {
@@ -333,9 +331,10 @@ class $DbIngredientTable extends DbIngredient
   @override
   List<GeneratedColumn> get $columns => [id, recipeId, name, amount];
   @override
-  String get aliasedName => _alias ?? 'db_ingredient';
+  String get aliasedName => _alias ?? actualTableName;
   @override
-  String get actualTableName => 'db_ingredient';
+  String get actualTableName => $name;
+  static const String $name = 'db_ingredient';
   @override
   VerificationContext validateIntegrity(Insertable<DbIngredientData> instance,
       {bool isInserting = false}) {
